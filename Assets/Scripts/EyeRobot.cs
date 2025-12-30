@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -22,6 +23,8 @@ public class EyeRobot : MonoBehaviour
     public Light eyeLight;
     public Color green;
     public Color red;
+
+    public event Action OnGameLost;
     #endregion
 
     #region Methods
@@ -51,7 +54,7 @@ public class EyeRobot : MonoBehaviour
         _currentPhase = Phase.GreenLight;
         eyeLight.color = green;
         
-        float randDuration = Random.Range(1f, 5f);
+        float randDuration = UnityEngine.Random.Range(1f, 5f);
         yield return new WaitForSeconds(randDuration);
 
         StartCoroutine(StartRedLight());
@@ -65,7 +68,7 @@ public class EyeRobot : MonoBehaviour
         
         _currentPhase = Phase.RedLight;
         
-        float randDuration = Random.Range(1f, 5f);
+        float randDuration = UnityEngine.Random.Range(1f, 5f);
         yield return new WaitForSeconds(randDuration);
 
         StartCoroutine(StartGreenLight());
@@ -84,6 +87,7 @@ public class EyeRobot : MonoBehaviour
         {
             gameOver = true;
             Debug.Log("Player Lost!");
+            OnGameLost?.Invoke();
         }
     }
     

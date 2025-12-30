@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     private float _cameraSensitivity = 0.5f;
     private float _yVelocity = 0f;
 
+    private bool _movement_enabled = false;
+
     private float _pitch;
     
     private const float Gravity = 9.81f;
@@ -24,6 +26,11 @@ public class PlayerController : MonoBehaviour
     #endregion
     
     #region Methods
+    public void EnableMovement()
+    {
+        _movement_enabled = true;
+    }
+    
     private void Awake()
     {
         _actions = new RLGLActions();
@@ -92,8 +99,11 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         float dt =  Time.deltaTime;
-        
-        MovePlayer(dt);
+
+        if (_movement_enabled)
+        {
+            MovePlayer(dt);
+        }
         RotatePlayer(dt);
     }
     #endregion
