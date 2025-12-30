@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,6 +19,8 @@ public class PlayerController : MonoBehaviour
     private float _pitch;
     
     private const float Gravity = 9.81f;
+
+    public event Action OnPlayerMoved;
     #endregion
     
     #region Methods
@@ -65,6 +66,11 @@ public class PlayerController : MonoBehaviour
         moveDir.y = _yVelocity;
         
         _charController.Move(moveDir * dt);
+
+        if (moveInput != Vector2.zero)
+        {
+            OnPlayerMoved?.Invoke();
+        }
     }
 
     private void RotatePlayer(float dt)
