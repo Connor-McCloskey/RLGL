@@ -67,7 +67,11 @@ public class PlayerController : MonoBehaviour
         
         _charController.Move(moveDir * dt);
 
-        if (moveInput != Vector2.zero)
+        if (moveInput == Vector2.zero)
+        {
+            return;
+        }
+        else
         {
             OnPlayerMoved?.Invoke();
         }

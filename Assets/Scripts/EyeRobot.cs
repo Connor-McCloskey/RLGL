@@ -12,6 +12,11 @@ public class EyeRobot : MonoBehaviour
     #region Vars
     private Phase _currentPhase = Phase.GreenLight;
     private const float GracePeriod = 0.5f;
+
+    private int timesSpotted = 0;
+    private int maxTimesSpotted = 3;
+    
+    private bool gameOver = false;
     
     public PlayerController player;
     public Light eyeLight;
@@ -20,10 +25,15 @@ public class EyeRobot : MonoBehaviour
     #endregion
 
     #region Methods
+
+    public void StartGameplay()
+    {
+        StartCoroutine(StartGreenLight());
+    }
+    
     private void Start()
     {
         player.OnPlayerMoved += PlayerMoved;
-        StartCoroutine(StartGreenLight());
     }
 
     private void LookAtPlayer()
@@ -63,9 +73,17 @@ public class EyeRobot : MonoBehaviour
 
     private void PlayerMoved()
     {
-        if (_currentPhase == Phase.RedLight)
+        if (_currentPhase == Phase.GreenLight)
         {
-            Debug.Log("Player Losses!");
+            return;
+        }
+        
+        Debug.Log("Player Spotted!");
+        timesSpotted++;
+        if (timesSpotted >= maxTimesSpotted && !gameOver)
+        {
+            gameOver = true;
+            Debug.Log("Player Lost!");
         }
     }
     

@@ -516,6 +516,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!1 &608924629
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 608924631}
+  - component: {fileID: 608924630}
+  m_Layer: 0
+  m_Name: Timeline
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!320 &608924630
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608924629}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: 98da2f0de5cc00545ac25560b2a39919, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: 9032657098204821519, guid: 98da2f0de5cc00545ac25560b2a39919, type: 2}
+    value: {fileID: 1440098922}
+  - key: {fileID: 1725817466227729650, guid: 98da2f0de5cc00545ac25560b2a39919, type: 2}
+    value: {fileID: 1440098925}
+  m_ExposedReferences:
+    m_References: []
+--- !u!4 &608924631
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608924629}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &926878295
 GameObject:
   m_ObjectHideFlags: 0
@@ -527,7 +580,7 @@ GameObject:
   - component: {fileID: 926878297}
   - component: {fileID: 926878296}
   m_Layer: 0
-  m_Name: InputManager
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1013,6 +1066,58 @@ MonoBehaviour:
   eyeLight: {fileID: 1254950553}
   green: {r: 0, g: 1, b: 0, a: 0}
   red: {r: 1, g: 0, b: 0, a: 0}
+--- !u!95 &1440098922
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362977148}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1440098925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362977148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.SignalReceiver
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 7ca2254165433394ca5c7f0a95d5ec1e, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1440098921}
+          m_TargetAssemblyTypeName: EyeRobot, Assembly-CSharp
+          m_MethodName: StartGameplay
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &1483832973
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1103,6 +1208,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 996733e7f87d52149b60467c50869b78, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1440098921}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 996733e7f87d52149b60467c50869b78, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1440098922}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 996733e7f87d52149b60467c50869b78, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1440098925}
   m_SourcePrefab: {fileID: 100100000, guid: 996733e7f87d52149b60467c50869b78, type: 3}
 --- !u!1 &1505741583
 GameObject:
@@ -1500,3 +1611,4 @@ SceneRoots:
   - {fileID: 926878297}
   - {fileID: 1435079798}
   - {fileID: 1483832973}
+  - {fileID: 608924631}
