@@ -37,24 +37,34 @@ public class GameManagement : MonoBehaviour
 
     private void OnGameOver()
     {
+        player.DisableMovement();
+        
         // Fade camera
         cameraFade.FadeOut();
         
         // Play dialogue
-        
-        // Re-open level
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        robot.OnGameOver(RestartGame, 2);
     }
 
     private void OnGameWon()
     {
+        player.DisableMovement();
+        
         // Fade camera
         cameraFade.FadeOut();
         
         // Play dialogue
-        
-        // Quit application
+        robot.OnGameOver(CloseGame, 3);
+    }
+
+    private void CloseGame()
+    {
         Application.Quit();
+    }
+
+    private void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);  
     }
     #endregion
 }

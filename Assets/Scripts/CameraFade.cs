@@ -1,5 +1,4 @@
 // Credit: https://github.com/ReCogMission/FirstTutorials
-using System;
 using UnityEngine;
 
 public class CameraFade : MonoBehaviour
@@ -16,9 +15,6 @@ public class CameraFade : MonoBehaviour
     private Texture2D texture;
     private int direction = 0;
     private float time = 0f;
-    
-    public event Action FadeOutDone;
-    public event Action FadeInDone;
     #endregion
     
     #region Methods
