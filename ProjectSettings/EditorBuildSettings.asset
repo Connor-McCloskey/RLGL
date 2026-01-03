@@ -6,11 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/RLGL_Main.unity
-    guid: 73a7a459a33518447b9b38f5995e6275
-  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 18b9102cb3b231b4db43b66ea6aafe68
+  - enabled: 1
+    path: Assets/Scenes/RLGL_Main.unity
+    guid: 73a7a459a33518447b9b38f5995e6275
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 3c50a5a5347510343a37946c9e6e4c5a, type: 3}
   m_UseUCBPForAssetBundles: 0

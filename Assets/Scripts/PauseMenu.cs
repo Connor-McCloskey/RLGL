@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -10,22 +11,30 @@ public class PauseMenu : MonoBehaviour
     public Button btnResumeGame;
     public Button btnQuit;
 
+    public AudioClip hoverSFX;
+    public AudioClip selectSFX;
+
     private Button _focusedButton;
     private PlayerInput _playerInput;
+    private AudioSource _audioSource;
+
+    public event Action OnUnpaused;
     #endregion
     
     #region Methods
     void Awake()
     {
+        _audioSource = GetComponent<AudioSource>();
+
         btnResumeGame.onClick.AddListener(OnResumeGame);
         btnQuit.onClick.AddListener(OnQuit);
 
         btnResumeGame.GetComponent<ButtonFocusHandler>().OnFocus += OnButtonGotFocus;
         btnQuit.GetComponent<ButtonFocusHandler>().OnFocus += OnButtonGotFocus;
-        
-        _playerInput = GetComponent<PlayerInput>();
+
+        _playerInput = GameManagement.Instance.gameObject.GetComponent<PlayerInput>();
         _playerInput.onControlsChanged += OnInputMethodChanged;
-        
+
         if (_playerInput.currentControlScheme.ToLower() == "gamepad")
         {
             EventSystem.current.SetSelectedGameObject(btnResumeGame.gameObject);
@@ -44,20 +53,37 @@ public class PauseMenu : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(_focusedButton.gameObject);
         }
     }
+
+    private void OnDestroy()
+    {
+        _playerInput.onControlsChanged -= OnInputMethodChanged;
+    }
     
     private void OnButtonGotFocus(Button btn)
     {
+        _audioSource.clip = hoverSFX;
+        _audioSource.Play();
+
         _focusedButton = btn;
+    }
+
+    private void PlayClickSFX()
+    {
+        _audioSource.clip = selectSFX;
+        _audioSource.Play();
     }
 
     private void OnResumeGame()
     {
-        SceneManager.LoadScene("RLGL_Main");
+        PlayClickSFX();
+        OnUnpaused?.Invoke();
     }
 
     private void OnQuit()
     {
+        PlayClickSFX();
         Application.Quit();
     }
+
     #endregion
 }

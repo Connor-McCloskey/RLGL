@@ -71,11 +71,13 @@ public class PlayerController : MonoBehaviour
     {
         _paused = !_paused;
         Time.timeScale = _paused ? 0f : 1f;
+        AudioListener.pause = _paused;
 
         if (_paused)
         {
             Cursor.lockState = CursorLockMode.None;
             _pauseMenu = Instantiate(PauseMenuPrefab, transform.position, Quaternion.identity);
+            _pauseMenu.GetComponent<PauseMenu>().OnUnpaused += OnPauseMenuResume;
             // Add PauseMenu to screen
         }
         else
@@ -84,6 +86,14 @@ public class PlayerController : MonoBehaviour
             Destroy(_pauseMenu);
             // Remove PauseMenu
         }
+    }
+
+    private void OnPauseMenuResume()
+    {
+        _paused = false;
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Destroy(_pauseMenu);
     }
     
     private bool PlayerMovedEnough(Vector2 input)
@@ -141,6 +151,11 @@ public class PlayerController : MonoBehaviour
     
     private void Update()
     {
+        if (_paused)
+        {
+            return;
+        }
+
         float dt =  Time.deltaTime;
 
         if (_movementEnabled)

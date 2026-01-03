@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 public class GameManagement : MonoBehaviour
 {
     #region Vars
+    public static GameManagement Instance;
+
     public CameraFade cameraFade;
     public EyeRobot robot;
     public PlayerController player;
@@ -15,6 +17,13 @@ public class GameManagement : MonoBehaviour
     #region Methods
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+
+        Instance = this;
+
         // Subscribe to game over and game loss events
         robot.OnGameLost += OnGameOver;
         WinTrigger.OnGameWon += OnGameWon;

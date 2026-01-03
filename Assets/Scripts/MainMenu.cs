@@ -10,13 +10,19 @@ public class MainMenu : MonoBehaviour
     public Button btnStartGame;
     public Button btnQuit;
 
+    public AudioClip hoverSFX;
+    public AudioClip selectSFX;
+
     private Button _focusedButton;
     private PlayerInput _playerInput;
+    private AudioSource _audioSource;
     #endregion
     
     #region Methods
     void Awake()
     {
+        _audioSource = GetComponent<AudioSource>();
+
         btnStartGame.onClick.AddListener(OnStartGame);
         btnQuit.onClick.AddListener(OnQuit);
 
@@ -47,16 +53,27 @@ public class MainMenu : MonoBehaviour
     
     private void OnButtonGotFocus(Button btn)
     {
+        _audioSource.clip = hoverSFX;
+        _audioSource.Play();
+
         _focusedButton = btn;
+    }
+
+    private void PlayClickSFX()
+    {
+        _audioSource.clip = selectSFX;
+        _audioSource.Play();
     }
 
     private void OnStartGame()
     {
+        PlayClickSFX();
         SceneManager.LoadScene("RLGL_Main");
     }
 
     private void OnQuit()
     {
+        PlayClickSFX();
         Application.Quit();
     }
     #endregion
