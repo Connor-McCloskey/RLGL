@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     private GameObject _pauseMenu;
     
     private bool _paused = false;
+    
+    private bool _gameOver = false;
 
     public GameObject PauseMenuPrefab;
 
@@ -36,6 +38,11 @@ public class PlayerController : MonoBehaviour
     public void DisableMovement()
     {
         _movementEnabled = false;
+    }
+
+    public void SetGameOver()
+    {
+        _gameOver = true;
     }
     
     private void Awake()
@@ -69,6 +76,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnPaused(InputAction.CallbackContext ctx)
     {
+        if (_gameOver)
+        {
+            return;
+        }
+        
         _paused = !_paused;
         Time.timeScale = _paused ? 0f : 1f;
         AudioListener.pause = _paused;
@@ -78,13 +90,11 @@ public class PlayerController : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             _pauseMenu = Instantiate(PauseMenuPrefab, transform.position, Quaternion.identity);
             _pauseMenu.GetComponent<PauseMenu>().OnUnpaused += OnPauseMenuResume;
-            // Add PauseMenu to screen
         }
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
             Destroy(_pauseMenu);
-            // Remove PauseMenu
         }
     }
 
@@ -92,6 +102,7 @@ public class PlayerController : MonoBehaviour
     {
         _paused = false;
         Time.timeScale = 1f;
+        AudioListener.pause = false;
         Cursor.lockState = CursorLockMode.Locked;
         Destroy(_pauseMenu);
     }
@@ -151,6 +162,11 @@ public class PlayerController : MonoBehaviour
     
     private void Update()
     {
+        if (_gameOver)
+        {
+            return;
+        }
+        
         if (_paused)
         {
             return;

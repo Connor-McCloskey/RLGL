@@ -27,7 +27,10 @@ public class MainMenu : MonoBehaviour
         btnQuit.onClick.AddListener(OnQuit);
 
         btnStartGame.GetComponent<ButtonFocusHandler>().OnFocus += OnButtonGotFocus;
+        btnStartGame.GetComponent<ButtonFocusHandler>().OnHover += PlayHoverSFX;
+        
         btnQuit.GetComponent<ButtonFocusHandler>().OnFocus += OnButtonGotFocus;
+        btnQuit.GetComponent<ButtonFocusHandler>().OnHover += PlayHoverSFX;
         
         _playerInput = GetComponent<PlayerInput>();
         _playerInput.onControlsChanged += OnInputMethodChanged;
@@ -53,15 +56,30 @@ public class MainMenu : MonoBehaviour
     
     private void OnButtonGotFocus(Button btn)
     {
-        _audioSource.clip = hoverSFX;
-        _audioSource.Play();
+        PlayHoverSFX(btn);
 
         _focusedButton = btn;
     }
 
     private void PlayClickSFX()
     {
+        if (!_audioSource)
+        {
+            return;
+        }
+        
         _audioSource.clip = selectSFX;
+        _audioSource.Play();
+    }
+
+    private void PlayHoverSFX(Button _)
+    {
+        if (!_audioSource)
+        {
+            return;
+        }
+        
+        _audioSource.clip = hoverSFX;
         _audioSource.Play();
     }
 

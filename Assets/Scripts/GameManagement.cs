@@ -47,6 +47,7 @@ public class GameManagement : MonoBehaviour
     private void OnGameOver()
     {
         player.DisableMovement();
+        player.SetGameOver();
         
         // Fade camera
         cameraFade.FadeOut();
@@ -58,6 +59,7 @@ public class GameManagement : MonoBehaviour
     private void OnGameWon()
     {
         player.DisableMovement();
+        player.SetGameOver();
         
         // Fade camera
         cameraFade.FadeOut();

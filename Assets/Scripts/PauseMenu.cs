@@ -25,12 +25,16 @@ public class PauseMenu : MonoBehaviour
     void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
+        _audioSource.ignoreListenerPause = true;
 
         btnResumeGame.onClick.AddListener(OnResumeGame);
         btnQuit.onClick.AddListener(OnQuit);
 
         btnResumeGame.GetComponent<ButtonFocusHandler>().OnFocus += OnButtonGotFocus;
+        btnResumeGame.GetComponent<ButtonFocusHandler>().OnHover += PlayHoverSFX;
+        
         btnQuit.GetComponent<ButtonFocusHandler>().OnFocus += OnButtonGotFocus;
+        btnQuit.GetComponent<ButtonFocusHandler>().OnHover += PlayHoverSFX;
 
         _playerInput = GameManagement.Instance.gameObject.GetComponent<PlayerInput>();
         _playerInput.onControlsChanged += OnInputMethodChanged;
@@ -61,15 +65,28 @@ public class PauseMenu : MonoBehaviour
     
     private void OnButtonGotFocus(Button btn)
     {
-        _audioSource.clip = hoverSFX;
-        _audioSource.Play();
+        PlayHoverSFX(btn);
 
         _focusedButton = btn;
     }
 
     private void PlayClickSFX()
     {
+        if (!_audioSource)
+        {
+            return;
+        }
         _audioSource.clip = selectSFX;
+        _audioSource.Play();
+    }
+
+    private void PlayHoverSFX(Button _)
+    {
+        if (!_audioSource)
+        {
+            return;
+        }
+        _audioSource.clip = hoverSFX;
         _audioSource.Play();
     }
 

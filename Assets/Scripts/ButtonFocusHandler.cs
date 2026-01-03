@@ -3,12 +3,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ButtonFocusHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
+public class ButtonFocusHandler : MonoBehaviour, ISelectHandler, IDeselectHandler, IPointerEnterHandler
 {
     private Button _parent;
     
     public event Action<Button> OnFocus;
     public event Action<Button> OnUnfocus;
+    public event Action<Button> OnHover;
 
     void Awake()
     {
@@ -23,5 +24,10 @@ public class ButtonFocusHandler : MonoBehaviour, ISelectHandler, IDeselectHandle
     public void OnDeselect(BaseEventData eventData)
     {
         OnUnfocus?.Invoke(_parent);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        OnHover?.Invoke(_parent);
     }
 }
