@@ -13,9 +13,16 @@ public class PlayerController : MonoBehaviour
     private float _playerSpeed = 5.0f;
     private float _cameraSensitivity = 0.5f;
     private float _yVelocity = 0f;
-    private bool _movement_enabled = false;
+    private bool _movementEnabled = false;
     private float _pitch;
     private const float Gravity = 9.81f;
+    private const float MoveMargin = 0.05f;
+    
+    private GameObject _pauseMenu;
+    
+    private bool _paused = false;
+
+    public GameObject PauseMenuPrefab;
 
     public event Action OnPlayerMoved;
     #endregion
@@ -23,12 +30,12 @@ public class PlayerController : MonoBehaviour
     #region Methods
     public void EnableMovement()
     {
-        _movement_enabled = true;
+        _movementEnabled = true;
     }
 
     public void DisableMovement()
     {
-        _movement_enabled = false;
+        _movementEnabled = false;
     }
     
     private void Awake()
@@ -49,6 +56,9 @@ public class PlayerController : MonoBehaviour
         
         _lookAction = _actions.Player.Look;
         _lookAction.Enable();
+
+        _actions.Player.Pause.performed += OnPaused;
+        _actions.Player.Pause.Enable();
     }
 
     private void OnDisable()
@@ -57,19 +67,36 @@ public class PlayerController : MonoBehaviour
         _lookAction.Disable();
     }
 
+    private void OnPaused(InputAction.CallbackContext ctx)
+    {
+        _paused = !_paused;
+        Time.timeScale = _paused ? 0f : 1f;
+
+        if (_paused)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            _pauseMenu = Instantiate(PauseMenuPrefab, transform.position, Quaternion.identity);
+            // Add PauseMenu to screen
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Destroy(_pauseMenu);
+            // Remove PauseMenu
+        }
+    }
+    
     private bool PlayerMovedEnough(Vector2 input)
     {
         if (input == Vector2.zero)
         {
             return false;
         }
-
-        float movemargin = 0.05f;
         
-        float move_x = Mathf.Abs(input.x - movemargin);
-        float move_y = Mathf.Abs(input.y - movemargin);
+        float moveX = Mathf.Abs(input.x - MoveMargin);
+        float moveY = Mathf.Abs(input.y - MoveMargin);
 
-        if (move_x > 0 || move_y > 0)
+        if (moveX > 0 || moveY > 0)
         {
             return true;
         }
@@ -116,7 +143,7 @@ public class PlayerController : MonoBehaviour
     {
         float dt =  Time.deltaTime;
 
-        if (_movement_enabled)
+        if (_movementEnabled)
         {
             MovePlayer(dt);
         }

@@ -4,10 +4,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
-public class MainMenu : MonoBehaviour
+public class PauseMenu : MonoBehaviour
 {
     #region Vars
-    public Button btnStartGame;
+    public Button btnResumeGame;
     public Button btnQuit;
 
     private Button _focusedButton;
@@ -17,18 +17,18 @@ public class MainMenu : MonoBehaviour
     #region Methods
     void Awake()
     {
-        btnStartGame.onClick.AddListener(OnStartGame);
+        btnResumeGame.onClick.AddListener(OnResumeGame);
         btnQuit.onClick.AddListener(OnQuit);
 
-        btnStartGame.GetComponent<ButtonFocusHandler>().OnFocus += OnButtonGotFocus;
+        btnResumeGame.GetComponent<ButtonFocusHandler>().OnFocus += OnButtonGotFocus;
         btnQuit.GetComponent<ButtonFocusHandler>().OnFocus += OnButtonGotFocus;
         
         _playerInput = GetComponent<PlayerInput>();
         _playerInput.onControlsChanged += OnInputMethodChanged;
-
+        
         if (_playerInput.currentControlScheme.ToLower() == "gamepad")
         {
-            EventSystem.current.SetSelectedGameObject(btnStartGame.gameObject);
+            EventSystem.current.SetSelectedGameObject(btnResumeGame.gameObject);
         }
     }
 
@@ -38,7 +38,7 @@ public class MainMenu : MonoBehaviour
         {
             if (!_focusedButton)
             {
-                EventSystem.current.SetSelectedGameObject(btnStartGame.gameObject);
+                EventSystem.current.SetSelectedGameObject(btnResumeGame.gameObject);
                 return;
             }
             EventSystem.current.SetSelectedGameObject(_focusedButton.gameObject);
@@ -50,7 +50,7 @@ public class MainMenu : MonoBehaviour
         _focusedButton = btn;
     }
 
-    private void OnStartGame()
+    private void OnResumeGame()
     {
         SceneManager.LoadScene("RLGL_Main");
     }
